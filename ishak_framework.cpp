@@ -20,9 +20,22 @@ CUSTOM_DOC("Shows the Path of the current Buffer.")
     
     // Get the buffer associated with the Build Panel
     Buffer_ID buildBuffer = view_get_buffer(app, buildPanel, Access_Always);
-    if (buildBuffer != 0) {
+    if (buildBuffer != 0) 
+    {       
+        for(int i = 0; i < file_path.size; ++i)
+        {
+            // The intention behind this is to easy copy-paste the header files.
+            u8& character = file_path.str[i];            
+            if(character == '\\')
+            {
+                character = '/';
+            }                         
+        }
+        
+        
         // Write the file path into the Build Panel buffer
         String_Const_u8 message = push_stringf(scratch, "Current File Path:\n%.*s\n", string_expand(file_path));
+        
         
         // Append the message to the buffer
         i64 buffer_size = buffer_get_size(app, buildBuffer);
